@@ -2,6 +2,31 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECRET_KEY = 'django-insecure-8lqy)s_4fqz9nm+8t@po!q0g4zhwzc-388ft@8mlbr0ukh2y!='
+
+DEBUG = True
+
+ALLOWED_HOSTS = ['*', ]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'teste_db',
+        'USER': 'teste_user',
+        'PASSWORD': 'teste123',
+        'HOST': 'pgteste',
+        'PORT': 5432,
+    }
+}
+
+DEFAULT_FROM_EMAIL = 'Teste'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = 'emanuelsmseverino@gmail.com'
+EMAIL_HOST_PASSWORD = 'lbexucwrqlhhrveg'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
