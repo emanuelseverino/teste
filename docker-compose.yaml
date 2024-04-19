@@ -1,0 +1,86 @@
+version: "3.8"
+
+services:
+  nginx:
+    build:
+      dockerfile: ./docker/nginx.dockerfile
+      context: .
+    image: emanuelseverino/nginx_teste:v1
+    container_name: nginx-teste
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - nwteste
+    depends_on:
+      - teste1
+      - teste2
+      - teste3
+#    volumes:
+#      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+#      - ./certbot/www/:/var/www/certbot/:ro
+
+  pgteste:
+    build:
+      dockerfile: ./docker/pgteste.dockerfile
+      context: .
+    image: emanuelseverino/pgteste:v1
+    container_name: pgteste
+    ports:
+      - "5432"
+    networks:
+      - nwteste
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+
+  teste1:
+    build:
+      dockerfile: ./docker/teste.dockerfile
+      context: .
+    image: emanuelseverino/teste:v1
+    container_name: teste1
+    ports:
+      - "8000"
+    networks:
+      - nwteste
+    depends_on:
+      - pgteste
+
+  teste2:
+    build:
+      dockerfile: ./docker/teste.dockerfile
+      context: .
+    image: emanuelseverino/teste:v1
+    container_name: teste2
+    ports:
+      - "8000"
+    networks:
+      - nwteste
+    depends_on:
+      - pgteste
+
+  teste3:
+    build:
+      dockerfile: ./docker/teste.dockerfile
+      context: .
+    image: emanuelseverino/teste:v1
+    container_name: teste3
+    ports:
+      - "8000"
+    networks:
+      - nwteste
+    depends_on:
+      - pgteste
+#  certbot:
+#    image: certbot/certbot:latest
+#    volumes:
+#      - ./certbot/www/:/var/www/certbot/:rw
+#      - ./certbot/conf/:/etc/letsencrypt/:rw
+
+
+networks:
+  nwteste:
+    driver: bridge
+
+volumes:
+  pgdata:
